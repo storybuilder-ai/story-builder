@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Story Builder</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+       
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+       
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+       
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #f0c674;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+       
+        .form-group {
+            margin-bottom: 20px;
+        }
+       
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #f0c674;
+        }
+       
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #333;
+            color: #fff;
+            font-size: 16px;
+        }
+       
+        button {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+        }
+       
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 75, 43, 0.6);
+        }
+       
+        .story-container {
+            margin-top: 40px;
+            display: none;
+            animation: fadeIn 1s;
+        }
+       
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+       
+        .story-images {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+       
+        .image-card {
+            text-align: center;
+            width: 150px;
+            margin: 10px;
+        }
+       
+        .animated-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            box-shadow: 5px 5px 10px #0d0d0d, -5px -5px 10px #333333;
+        }
+       
+        .story-text {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            line-height: 1.8;
+            font-size: 18px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+       
+        .story-text p {
+            margin-bottom: 15px;
+        }
+       
+        /* Character Animations */
+        .char-0 { animation: bounce 2s infinite; }
+        .char-1 { animation: rotate 3s infinite linear; }
+        .char-2 { animation: pulse 1.5s infinite; }
+        .char-3 { animation: shake 2s infinite; }
+        .char-4 { animation: float 3s infinite ease-in-out; }
+        .char-5 { animation: glow 2s infinite alternate; }
+        .char-6 { animation: wobble 2s infinite; }
+        .char-7 { animation: flip 3s infinite; }
+        .char-8 { animation: zoom 1.5s infinite alternate; }
+        .char-9 { animation: swing 2s infinite; }
+       
+        /* Place Animations */
+        .place-0 { animation: pan 15s infinite linear; }
+        .place-1 { animation: storm 4s infinite; }
+        .place-2 { animation: wave 3s infinite ease-in-out; }
+        .place-3 { animation: fire 2s infinite alternate; }
+        .place-4 { animation: snow 5s infinite linear; }
+        .place-5 { animation: stars 4s infinite linear; }
+        .place-6 { animation: forest 3s infinite alternate; }
+        .place-7 { animation: city 5s infinite linear; }
+        .place-8 { animation: desert 6s infinite linear; }
+        .place-9 { animation: underwater 4s infinite ease-in-out; }
+       
+        /* Ending Animations */
+        .end-0 { animation: celebrate 2s infinite; }
+        .end-1 { animation: fadeOut 3s infinite; }
+        .end-2 { animation: explode 2s infinite; }
+        .end-3 { animation: transform 3s infinite; }
+        .end-4 { animation: vanish 4s infinite; }
+        .end-5 { animation: sparkle 2s infinite; }
+        .end-6 { animation: rise 3s infinite; }
+        .end-7 { animation: fall 2.5s infinite; }
+        .end-8 { animation: merge 4s infinite; }
+        .end-9 { animation: cycle 3s infinite linear; }
+       
+        /* Animation Keyframes */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+       
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+       
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+       
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+       
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+       
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #fff, 0 0 10px #fff; }
+            to { box-shadow: 0 0 10px #fff, 0 0 20px #0ff; }
+        }
+       
+        @keyframes wobble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+       
+        @keyframes flip {
+            0% { transform: rotateY(0); }
+            50% { transform: rotateY(180deg); }
+            100% { transform: rotateY(360deg); }
+        }
+       
+        @keyframes zoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+       
+        @keyframes swing {
+            0%, 100% { transform: rotate(0deg); }
+            20% { transform: rotate(15deg); }
+            40% { transform: rotate(-10deg); }
+            60% { transform: rotate(5deg); }
+            80% { transform: rotate(-5deg); }
+        }
+       
+        @keyframes pan {
+            from { background-position: 0 0; }
+            to { background-position: 100% 0; }
+        }
+       
+        @keyframes storm {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
+        }
+       
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+       
+        @keyframes fire {
+            from { box-shadow: 0 0 5px #ff9900; }
+            to { box-shadow: 0 0 20px #ff3300; }
+        }
+       
+        @keyframes snow {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(20px); }
+        }
+       
+        @keyframes stars {
+            from { opacity: 0.3; }
+            50% { opacity: 1; }
+            to { opacity: 0.3; }
+        }
+       
+        @keyframes forest {
+            from { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+       
+        @keyframes city {
+            from { filter: brightness(0.8); }
+            50% { filter: brightness(1.2); }
+        }
+       
+        @keyframes desert {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+       
+        @keyframes underwater {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+       
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            75% { transform: scale(0.9) rotate(-5deg); }
+        }
+       
+        @keyframes fadeOut {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+       
+        @keyframes explode {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+       
+        @keyframes transform {
+            0%, 100% { border-radius: 50%; }
+            50% { border-radius: 20%; }
+        }
+       
+        @keyframes vanish {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(0.8); }
+        }
+       
+        @keyframes sparkle {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+       
+        @keyframes rise {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+       
+        @keyframes fall {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(20px); }
+        }
+       
+        @keyframes merge {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(0.8) rotate(180deg); }
+        }
+       
+        @keyframes cycle {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Animated Story Builder 🌟</h1>
+       
+        <div class="form-group">
+            <label for="character">Choose a Character:</label>
+            <select id="character">
+                <option value="0">Brave Knight</option>
+                <option value="1">Mysterious Wizard</option>
+                <option value="2">Cunning Thief</option>
+                <option value="3">Fearless Warrior</option>
+                <option value="4">Wise Sage</option>
+                <option value="5">Curious Explorer</option>
+                <option value="6">Noble Prince</option>
+                <option value="7">Stealthy Assassin</option>
+                <option value="8">Powerful Sorceress</option>
+                <option value="9">Loyal Companion</option>
+            </select>
+        </div>
+       
+        <div class="form-group">
+            <label for="place">Choose a Place:</label>
+            <select id="place">
+                <option value="0">Enchanted Forest</option>
+                <option value="1">Ancient Castle</option>
+                <option value="2">Floating Islands</option>
+                <option value="3">Underwater Kingdom</option>
+                <option value="4">Mystic Mountains</option>
+                <option value="5">Forgotten Desert</option>
+                <option value="6">Crystal Caves</option>
+                <option value="7">Sky City</option>
+                <option value="8">Shadow Realm</option>
+                <option value="9">Timeless Library</option>
+            </select>
+        </div>
+       
+        <div class="form-group">
+            <label for="ending">Choose an Ending:</label>
+            <select id="ending">
+                <option value="0">Triumphant Victory</option>
+                <option value="1">Unexpected Twist</option>
+                <option value="2">Heartwarming Reunion</option>
+                <option value="3">Mysterious Disappearance</option>
+                <option value="4">Epic Sacrifice</option>
+                <option value="5">New Beginning</option>
+                <option value="6">Time Paradox</option>
+                <option value="7">Hidden Revelation</option>
+                <option value="8">Cosmic Transformation</option>
+                <option value="9"> Eternal Legacy</option>
+            </select>
+        </div>
+       
+        <button id="generate-btn">Generate My Story</button>
+       
+        <div class="story-container" id="story-container">
+            <div class="story-images">
+                <div class="image-card">
+                    <div class="animated-image char-0" id="char-img">⚔️</div>
+                    <div id="char-name">Character</div>
+                </div>
+                <div class="image-card">
+                    <div class="animated-image place-0" id="place-img">🌲</div>
+                    <div id="place-name">Place</div>
+                </div>
+                <div class="image-card">
+                    <div class="animated-image end-0" id="end-img">🏆</div>
+                    <div id="end-name">Ending</div>
+                </div>
+            </div>
+           
+            <div class="story-text" id="story-text">
+                <!-- Story will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', generateStory);
+       
+        // Character data
+        const characters = [
+            { name: "Brave Knight", emoji: "⚔️", class: "char-0" },
+            { name: "Mysterious Wizard", emoji: "🧙", class: "char-1" },
+            { name: "Cunning Thief", emoji: "🗡️", class: "char-2" },
+            { name: "Fearless Warrior", emoji: "🛡️", class: "char-3" },
+            { name: "Wise Sage", emoji: "🧓", class: "char-4" },
+            { name: "Curious Explorer", emoji: "🔍", class: "char-5" },
+            { name: "Noble Prince", emoji: "👑", class: "char-6" },
+            { name: "Stealthy Assassin", emoji: "🥷", class: "char-7" },
+            { name: "Powerful Sorceress", emoji: "🔮", class: "char-8" },
+            { name: "Loyal Companion", emoji: "🐶", class: "char-9" }
+        ];
+       
+        // Place data
+        const places = [
+            { name: "Enchanted Forest", emoji: "🌲", class: "place-0" },
+            { name: "Ancient Castle", emoji: "🏰", class: "place-1" },
+            { name: "Floating Islands", emoji: "🏝️", class: "place-2" },
+            { name: "Underwater Kingdom", emoji: "🌊", class: "place-3" },
+            { name: "Mystic Mountains", emoji: "⛰️", class: "place-4" },
+            { name: "Forgotten Desert", emoji: "🏜️", class: "place-5" },
+            { name: "Crystal Caves", emoji: "💎", class: "place-6" },
+            { name: "Sky City", emoji: "☁️", class: "place-7" },
+            { name: "Shadow Realm", emoji: "🌑", class: "place-8" },
+            { name: "Timeless Library", emoji: "📚", class: "place-9" }
+        ];
+       
+        // Ending data
+        const endings = [
+            { name: "Triumphant Victory", emoji: "🏆", class: "end-0" },
+            { name: "Unexpected Twist", emoji: "🌀", class: "end-1" },
+            { name: "Heartwarming Reunion", emoji: "❤️", class: "end-2" },
+            { name: "Mysterious Disappearance", emoji: "👻", class: "end-3" },
+            { name: "Epic Sacrifice", emoji: "🕯️", class: "end-4" },
+            { name: "New Beginning", emoji: "🌱", class: "end-5" },
+            { name: "Time Paradox", emoji: "⏳", class: "end-6" },
+            { name: "Hidden Revelation", emoji: "🔍", class: "end-7" },
+            { name: "Cosmic Transformation", emoji: "🌌", class: "end-8" },
+            { name: "Eternal Legacy", emoji: "🏛️", class: "end-9" }
+        ];
+       
+        // Story templates
+        const storyTemplates = {
+            // Each combination has a unique story template
+            // 10 characters x 10 places x 10 endings = 1000 unique combinations
+            // We'll use a hash function to generate consistent stories
+        };
+       
+        function generateStory() {
+            // Get selected values
+            const charIndex = parseInt(document.getElementById('character').value);
+            const placeIndex = parseInt(document.getElementById('place').value);
+            const endIndex = parseInt(document.getElementById('ending').value);
+           
+            // Get selected data
+            const character = characters[charIndex];
+            const place = places[placeIndex];
+            const ending = endings[endIndex];
+           
+            // Update images and names
+            const charImg = document.getElementById('char-img');
+            const placeImg = document.getElementById('place-img');
+            const endImg = document.getElementById('end-img');
+           
+            charImg.textContent = character.emoji;
+            charImg.className = `animated-image ${character.class}`;
+           
+            placeImg.textContent = place.emoji;
+            placeImg.className = `animated-image ${place.class}`;
+           
+            endImg.textContent = ending.emoji;
+            endImg.className = `animated-image ${ending.class}`;
+           
+            document.getElementById('char-name').textContent = character.name;
+            document.getElementById('place-name').textContent = place.name;
+            document.getElementById('end-name').textContent = ending.name;
+           
+            // Generate unique story based on combination
+            const story = createStory(charIndex, placeIndex, endIndex, character, place, ending);
+           
+            // Display story
+            document.getElementById('story-text').innerHTML = story;
+            document.getElementById('story-container').style.display = 'block';
+        }
+       
+        function createStory(charIndex, placeIndex, endIndex, character, place, ending) {
+            // Create a unique seed based on combination
+            const seed = charIndex * 100 + placeIndex * 10 + endIndex;
+           
+            // Story parts based on seed
+            const beginnings = [
+                `In the heart of ${place.name}, ${character.name} discovered an ancient prophecy.`,
+                `${character.name} embarked on a journey to ${place.name} seeking answers.`,
+                `Legends spoke of ${place.name} where ${character.name} would face their destiny.`,
+                `The call of adventure led ${character.name} to the mysterious ${place.name}.`,
+                `${character.name} arrived at ${place.name} unaware of the trials ahead.`,
+                `At the edge of ${place.name}, ${character.name} made a life-changing decision.`,
+                `The fates guided ${character.name} to ${place.name} for a purpose unknown.`,
+                `${character.name} stood before the gates of ${place.name}, heart filled with determination.`,
+                `Whispers from ${place.name} summoned ${character.name} to fulfill an ancient oath.`,
+                `${character.name} entered ${place.name} seeking redemption for past mistakes.`
+            ];
+           
+            const middles = [
+                `Along the winding paths, they encountered mysterious allies and dangerous foes.`,
+                `Ancient riddles tested their wit and courage at every turn.`,
+                `A powerful artifact was discovered, holding unimaginable power.`,
+                `Dark forces gathered, threatening to consume everything in their path.`,
+                `An unexpected companion joined the quest, bringing hope and wisdom.`,
+                `Trials of fire and water proved their worthiness to the ancient guardians.`,
+                `Secrets long buried began to surface, changing everything they thought they knew.`,
+                `A betrayal from within forced them to question who they could truly trust.`,
+                `The very fabric of reality seemed to twist and bend around them.`,
+                `Time itself seemed to behave strangely in this enchanted place.`
+            ];
+           
+            const endings = [
+                `In the end, ${character.name} achieved ${ending.name}, bringing peace to the land.`,
+                `The journey concluded with ${ending.name}, changing the course of history forever.`,
+                `${character.name}'s sacrifice led to ${ending.name}, a bittersweet victory.`,
+                `Through courage and wisdom, ${character.name} unlocked ${ending.name}.`,
+                `The final battle resulted in ${ending.name}, fulfilling the ancient prophecy.`,
+                `${ending.name} marked the beginning of a new era for all the realms.`,
+                `Against all odds, ${character.name} attained ${ending.name} through sheer determination.`,
+                `The mysteries of ${place.name} culminated in ${ending.name}, a resolution no one expected.`,
+                `${character.name}'s legacy was secured through ${ending.name}, inspiring generations to come.`,
+                `The ultimate truth was revealed: ${ending.name} was the destiny all along.`
+            ];
+           
+            // Select story parts based on seed
+            const beginning = beginnings[seed % beginnings.length];
+            const middle1 = middles[(seed + 1) % middles.length];
+            const middle2 = middles[(seed + 3) % middles.length];
+            const middle3 = middles[(seed + 5) % middles.length];
+            const middle4 = middles[(seed + 7) % middles.length];
+            const end = endings[seed % endings.length];
+           
+            // Build story
+            return `
+                <p>${beginning}</p>
+                <p>${middle1}</p>
+                <p>${middle2}</p>
+                <p>${middle3}</p>
+                <p>${middle4}</p>
+                <p>${end}</p>
+                <p>The echoes of this tale would resonate through time, a testament to the courage of ${character.name} and the mysteries of ${place.name}.</p>
+                <p>And so, with ${ending.name}, the story reached its conclusion, yet the adventure would live on in the hearts of those who heard it.</p>
+                <p>The legacy of ${character.name} in ${place.name} became a legend told for generations, inspiring new heroes to embark on their own journeys.</p>
+                <p>Though the chapter closed, the magic of ${place.name} and the spirit of ${character.name} would forever remain intertwined in the tapestry of destiny.</p>
+                <p>And so ends the tale of ${character.name}, whose journey through ${place.name} culminated in ${ending.name}, leaving an indelible mark on the world.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
